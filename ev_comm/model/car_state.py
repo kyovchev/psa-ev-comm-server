@@ -1,14 +1,23 @@
 from ev_comm.model.battery_state import BatteryState
+from ev_comm.model.charging_state import ChargingState
 from ev_comm.model.environment_state import EnvironmentState
 from datetime import datetime
 
 
 class CarState:
     def load_from_psacc_response(self, response):
+        charging_state = ChargingState(
+            response["energy"][0]["charging"]["charging_mode"],
+            response["energy"][0]["charging"]["charging_rate"],
+            response["energy"][0]["charging"]["plugged"],
+            response["energy"][0]["charging"]["remaining_time"],
+            response["energy"][0]["charging"]["status"],
+        )
+
         battery = BatteryState(
             response["energy"][0]["level"],
             response["energy"][0]["autonomy"],
-            response["energy"][0]["charging"]["charging_mode"],
+            charging_state,
             response["energy"][0]["updated_at"]
         )
 
