@@ -10,3 +10,5 @@ certificate_filename = config/firebase-adminsdk.json
 [PSACC]
 url = http://127.0.0.1:5000
 vin = VR3..............
+service = psa-car-controller.service
+connection_timeout = 30

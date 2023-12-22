@@ -14,16 +14,22 @@ class FirestoreComm:
         self.firebase_db.collection("car_status").document(
             "current").set(car_state.to_dict())
 
-    def send_battery_status(self, percentage):
+    def send_message(self, title, body):
         docs = self.firebase_db.collection("fcm").stream()
 
         for doc in docs:
             d = doc.to_dict()
             message = messaging.Message(
                 data={
-                    "title": "EV",
-                    "body": f"Battery level: {percentage}%",
+                    "title": title,
+                    "body": body,
                 },
                 token=d["token"],
             )
             messaging.send(message)
+
+    def send_battery_status(self, percentage):
+        self.send_message("EV", f"Battery level: {percentage}%")
+
+    def notify_conn_error(self, error):
+        self.send_message("EV Error", error)
