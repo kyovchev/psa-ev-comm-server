@@ -1,0 +1,14 @@
+[Unit]
+Description=PSA EV Communicator Server
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/python main.py
+WorkingDirectory=/home/pi/ev/psa-ev-comm-server
+Restart=on-failure
+RestartSec=1m
+Environment=PYTHONUNBUFFERED=true
+User=pi
+
+[Install]
+WantedBy=multi-user.target
